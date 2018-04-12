@@ -12,6 +12,7 @@ class PasswordAuthentication implements AuthenticationInterface
     protected $options;
     protected $access_token;
     protected $instance_url;
+    protected $cookie_lifetime;
 
     public function __construct(array $options)
     {
@@ -38,6 +39,11 @@ class PasswordAuthentication implements AuthenticationInterface
         } else {
             throw new SalesforceAuthentication($request->getBody());
         }
+    }
+    
+    public function setCookieLifetime($lifetime)
+    {
+        $this->cookie_lifetime = $lifetime;
     }
 
     public function setEndpoint($endPoint)
