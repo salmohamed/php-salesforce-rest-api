@@ -11,13 +11,31 @@ class CRUD
 
     public function __construct()
     {
-        if (!isset($_SESSION) and !isset($_SESSION['salesforce'])) {
+        if ((!isset($_SESSION) && !isset($_SESSION['salesforce'])) && !$this->hasValidCookie()) {
             throw new \Exception('Access Denied', 403);
         }
-
-        $this->instance_url = $_SESSION['salesforce']['instance_url'];
-        $this->access_token = $_SESSION['salesforce']['access_token'];
+        if(!$this->hasValidCookie()){
+            $this->instance_url = $_SESSION['salesforce']['instance_url'];
+            $this->access_token = $_SESSION['salesforce']['access_token'];
+        }
     }
+
+    /**
+     * @return bool
+     */
+    protected function hasValidCookie(){
+        if(isset($_COOKIE['access_token']) && isset($_COOKIE['instance_url'])){
+            $this->instance_url = $_COOKIE['instance_url'];
+            $this->access_token = $_COOKIE['access_token'];
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
 
     public function query($query)
     {
