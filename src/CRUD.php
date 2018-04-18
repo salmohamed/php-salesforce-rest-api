@@ -81,6 +81,42 @@ class CRUD
 
     }
 
+    /**
+     * @param $object
+     * @param array $data
+     * @return mixed
+     */
+    public function createTree($object, array $data)
+    {
+        $url = "$this->instance_url/services/data/v39.0/composite/tree/$object/";
+
+        $client = new Client();
+
+        $request = $client->request('POST', $url, [
+            'headers' => [
+                'Authorization' => "OAuth $this->access_token",
+                'Content-type' => 'application/json'
+            ],
+            'json' => $data
+        ]);
+
+        $status = $request->getStatusCode();
+
+        if ($status != 201) {
+            die("Error: call to URL $url failed with status $status, response: " . $request->getReasonPhrase());
+        }
+
+        $response = json_decode($request->getBody(), true);
+
+        return $response["results"];
+    }
+
+    /**
+     * @param $object
+     * @param $id
+     * @param array $data
+     * @return int
+     */
     public function update($object, $id, array $data)
     {
         $url = "$this->instance_url/services/data/v39.0/sobjects/$object/$id";
