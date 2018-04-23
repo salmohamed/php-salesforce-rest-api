@@ -159,4 +159,32 @@ class CRUD
 
         return true;
     }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function upload($data)
+    {
+        $url = "$this->instance_url/services/data/v42.0/sobjects/ContentVersion/";
+
+        $client = new Client();
+
+        $request = $client->request('POST', $url, [
+            'headers' => [
+                'Authorization' => "OAuth $this->access_token",
+                'Content-type' => 'application/json'
+            ],
+            'json' => $data
+        ]);
+        $status = $request->getStatusCode();
+
+        if ($status != 201) {
+            die("Error: call to URL $url failed with status $status, response: " . $request->getReasonPhrase());
+        }
+
+        $response = json_decode($request->getBody(), true);
+
+        return $response;
+    }
 }
