@@ -162,9 +162,11 @@ class CRUD
 
     /**
      * @param $data
+     * @param $boundary
      * @return mixed
      */
-    public function upload($data)
+    public function upload($data, $boundary)
+
     {
         $url = "$this->instance_url/services/data/v42.0/sobjects/ContentVersion/";
 
@@ -173,9 +175,9 @@ class CRUD
         $request = $client->request('POST', $url, [
             'headers' => [
                 'Authorization' => "OAuth $this->access_token",
-                'Content-type' => 'application/json'
+                'Content-type' => 'multipart/form-data; boundary=' . $boundary . ''
             ],
-            'json' => $data
+            'body' => $data
         ]);
         $status = $request->getStatusCode();
 
