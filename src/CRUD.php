@@ -189,4 +189,21 @@ class CRUD
 
         return $response;
     }
+
+    /**
+     * @param $objectUrl
+     * @return string
+     */
+    public function download($objectUrl){
+        $url = $this->instance_url.$objectUrl;
+
+        $client = new Client();
+
+        $request = $client->request('GET', $url, [
+            'headers' => [
+                'Authorization' => "OAuth $this->access_token"
+            ]
+        ]);
+        return $request->getBody()->getContents();
+    }
 }
