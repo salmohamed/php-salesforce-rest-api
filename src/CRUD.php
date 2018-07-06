@@ -14,7 +14,7 @@ class CRUD
         if ((!isset($_SESSION) && !isset($_SESSION['salesforce'])) && !$this->hasValidCookie()) {
             throw new \Exception('Access Denied', 403);
         }
-        if(!$this->hasValidCookie()){
+        if (!$this->hasValidCookie()) {
             $this->instance_url = $_SESSION['salesforce']['instance_url'];
             $this->access_token = $_SESSION['salesforce']['access_token'];
         }
@@ -23,8 +23,9 @@ class CRUD
     /**
      * @return bool
      */
-    protected function hasValidCookie(){
-        if(isset($_COOKIE['access_token']) && isset($_COOKIE['instance_url'])){
+    protected function hasValidCookie()
+    {
+        if (isset($_COOKIE['access_token']) && isset($_COOKIE['instance_url'])) {
             $this->instance_url = $_COOKIE['instance_url'];
             $this->access_token = $_COOKIE['access_token'];
             return true;
@@ -166,7 +167,6 @@ class CRUD
      * @return mixed
      */
     public function upload($data, $boundary)
-
     {
         $url = "$this->instance_url/services/data/v42.0/sobjects/ContentVersion/";
 
@@ -194,7 +194,8 @@ class CRUD
      * @param $objectId
      * @return string
      */
-    public function download($objectId){
+    public function download($objectId)
+    {
         $url = "$this->instance_url/services/data/v42.0/sobjects/ContentVersion/$objectId/VersionData";
 
         $client = new Client();
