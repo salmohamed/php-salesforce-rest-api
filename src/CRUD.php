@@ -204,6 +204,10 @@ class CRUD
                 'Authorization' => "OAuth $this->access_token"
             ]
         ]);
+        $status = $request->getStatusCode();
+        if ($status != 200) {
+            die("Error: call to URL $url failed with status $status, response: " . $request->getReasonPhrase());
+        }
         return $request->getBody()->getContents();
     }
 }
