@@ -191,11 +191,11 @@ class CRUD
     }
 
     /**
-     * @param $objectUrl
+     * @param $objectId
      * @return string
      */
-    public function download($objectUrl){
-        $url = $this->instance_url.$objectUrl;
+    public function download($objectId){
+        $url = "$this->instance_url/services/data/v42.0/sobjects/ContentVersion/$objectId/VersionData";
 
         $client = new Client();
 
