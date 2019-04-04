@@ -191,6 +191,33 @@ class CRUD
     }
 
     /**
+     * @param array $data
+     * @return mixed
+     */
+    public function updateTree(array $data)
+    {
+        $url = "$this->instance_url/services/data/v45.0/composite/sobjects";
+
+        $client = new Client();
+
+        $request = $client->request('PATCH', $url, [
+            'headers' => [
+                'Authorization' => "OAuth $this->access_token",
+                'Content-type' => 'application/json'
+            ],
+            'json' => $data
+        ]);
+
+        $status = $request->getStatusCode();
+
+        if ($status != 200) {
+            die("Error: call to URL $url failed with status $status, response: " . $request->getReasonPhrase());
+        }
+
+        return json_decode($request->getBody(), true);
+    }
+
+    /**
      * @param $objectId
      * @return string
      */
