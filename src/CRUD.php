@@ -55,6 +55,29 @@ class CRUD
         return json_decode($request->getBody(), true);
     }
 
+    /**
+     * @param string $url
+     * @return mixed
+     */
+    public function nextRecords($url)
+    {
+        $url = $this->instance_url.$url;
+
+        $client = new Client();
+        $request = $client->request('GET', $url, [
+            'headers' => [
+                'Authorization' => "OAuth $this->access_token"
+            ]
+        ]);
+
+        return json_decode($request->getBody(), true);
+    }
+
+    /**
+     * @param string $object
+     * @param array $data
+     * @return mixed
+     */
     public function create($object, array $data)
     {
         $url = "$this->instance_url/services/data/v39.0/sobjects/$object/";
